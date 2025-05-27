@@ -9,6 +9,7 @@ language-server/host/dune
 language-server/language/dune
 language-server/protocol/dune
 language-server/vsrocqtop/dune
+language-server/host/common/dune
 language-server/_build
 client/yarn-error.log
 client/.vscode-test/

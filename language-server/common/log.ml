@@ -35,12 +35,12 @@ let write_to_init_log str =
 
 let handle_event s = Printf.eprintf "%s\n" s
 
-let mk_log name is_enabled logmod string_of_ppcmds =
+let mk_log name is_enabled string_of_ppcmds =
   logs := name :: !logs;
   let flag = is_enabled name (Array.to_list Sys.argv) in
   let flag_init = is_enabled "init" (Array.to_list Sys.argv) in
   write_to_init_log ("log fun () -> " ^ name ^ " is " ^ if flag then "on" else "off");
-  logmod (fun ?(force=false) msg ->
+  Types.Log (fun ?(force=false) msg ->
     let msg =
       try msg ()
       with

@@ -15,7 +15,11 @@
 open Types
 open Host
 
-val mk_log : string -> (?force:bool -> (unit -> string) -> unit) log
+val is_enabled : string -> string list -> bool
+val mk_log : string ->
+    (string -> string list -> bool) ->
+    (Pp.t -> string) ->
+    (?force:bool -> (unit -> string) -> unit) Types.log
 val logs : unit -> string list
 
 type event = string

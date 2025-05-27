@@ -15,7 +15,7 @@
 open Types
 open Host
 
-let Log log = Log.mk_log "scheduler"
+let Log log = Common.Log.mk_log "scheduler" ~is_enabled:Host_common.Log.is_enabled ~string_of_ppcmds:Host.Hpp.string_of_ppcmds
 
 module SM = CMap.Make (State.Id)
 
