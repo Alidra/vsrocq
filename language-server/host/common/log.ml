@@ -12,7 +12,7 @@
 (*                                                                        *)
 (**************************************************************************)
 
-open Types
+(* open Types *)
 open Host
 
 let lsp_initialization_done = ref false
@@ -27,12 +27,12 @@ let init_log =
     oc)
   with _ -> None
 
-let write_to_init_log str =
+(* let write_to_init_log str =
   Option.iter (fun oc ->
       output_string oc str;
       output_char oc '\n';
       flush oc)
-    init_log
+    init_log *)
 
 let rec is_enabled name = function
   | [] -> false
@@ -45,7 +45,7 @@ let logs = ref []
 
 let handle_event s = Printf.eprintf "%s\n" s
 
-let mk_log name =
+(* let mk_log name =
   logs := name :: !logs;
   let flag = is_enabled name (Array.to_list Sys.argv) in
   let flag_init = is_enabled "init" (Array.to_list Sys.argv) in
@@ -71,7 +71,7 @@ let mk_log name =
       end else
         handle_event txt
     end else
-      ())
+      ()) *)
 
 let logs () = List.sort String.compare !logs
 

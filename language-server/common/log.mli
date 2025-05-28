@@ -14,6 +14,6 @@
 
 val mk_log : string ->
     (string -> string list -> bool) ->
-    ((?force:bool -> (unit -> string) -> unit) -> 'a) ->
-    (Pp.t -> string) -> 'a
+    (Pp.t -> string) ->
+    (?force:bool -> (unit -> string) -> unit) Types.log
 val logs : unit -> string list
