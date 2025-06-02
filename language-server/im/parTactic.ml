@@ -12,10 +12,9 @@
 (*                                                                        *)
 (**************************************************************************)
 
-open Host_common.Types
 open Host
 
-let Log log = Host_common.Log.mk_log "parTactic"
+let Common.Types.Log log = Common.Log.mk_log "parTactic" Host_common.Log.is_enabled Host.Hpp.string_of_ppcmds
 
 type sentence_id = State.Id.t
 

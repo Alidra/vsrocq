@@ -15,7 +15,7 @@
 (** This toplevel implements an LSP-based server language for VsCode,
     used by the VsRocq extension. *)
 
-let Host_common.Types.Log log = Host_common.Log.mk_log "top"
+let Common.Types.Log log = Common.Log.mk_log "top" Host_common.Log.is_enabled Host.Hpp.string_of_ppcmds
 
 let loop () =
   let events = LspManager.init () in

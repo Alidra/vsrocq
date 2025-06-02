@@ -12,7 +12,7 @@
 (*                                                                        *)
 (**************************************************************************)
 
-let Host_common.Types.Log log = Host_common.Log.mk_log "args"
+let Common.Types.Log log = Common.Log.mk_log "args" Host_common.Log.is_enabled Host.Hpp.string_of_ppcmds
 
 let rec skip_xd acc = function
 | [] -> (), List.rev acc

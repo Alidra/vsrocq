@@ -17,7 +17,7 @@ open Host_common.Types
 open Lsp.Types
 open Host
 
-let Log log = Host_common.Log.mk_log "document"
+let Common.Types.Log log = Common.Log.mk_log "document" Host_common.Log.is_enabled Host.Hpp.string_of_ppcmds
 
 module LM = Map.Make (Int)
 

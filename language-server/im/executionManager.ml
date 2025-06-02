@@ -17,7 +17,7 @@ open Host
 open Host_common.Scheduler
 open Host_common.Types
 
-let Log log = Host_common.Log.mk_log "executionManager"
+let Common.Types.Log log = Common.Log.mk_log "executionManager" Host_common.Log.is_enabled Host.Hpp.string_of_ppcmds
 
 type feedback_message = Feedback.level * HLoc.t option * Quickfix.t list * Hpp.t
 

@@ -14,13 +14,12 @@
 
 module CompactedDecl = Context.Compacted.Declaration
 
-open Host_common.Types
 open EConstr
 open Host
 open Names
 open Printer
 
-let Log log = Host_common.Log.mk_log "completionSuggester"
+let Common.Types.Log log = Common.Log.mk_log "completionSuggester" Host_common.Log.is_enabled Host.Hpp.string_of_ppcmds
 
 module TypeCompare = struct
   type t = types

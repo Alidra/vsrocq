@@ -13,9 +13,8 @@
 (**************************************************************************)
 
 open Host
-open Host_common.Types
 
-let Log log = Host_common.Log.mk_log "delegationManager"
+let Common.Types.Log log = Common.Log.mk_log "delegationManager" Host_common.Log.is_enabled Host.Hpp.string_of_ppcmds
 
 type sentence_id = State.Id.t
 
@@ -122,7 +121,7 @@ let write_value link (x:worker_message) = write_value_gen link x
 
 let write_value_job link (x:Job.t) = write_value_gen link x
 
-let Log log_worker = Host_common.Log.mk_log ("worker." ^ Job.name)
+let Common.Types.Log log_worker = Common.Log.mk_log ("worker." ^ Job.name) Host_common.Log.is_enabled Host.Hpp.string_of_ppcmds
 
 let install_feedback_worker ~feedback_cleanup link =
   feedback_cleanup ();

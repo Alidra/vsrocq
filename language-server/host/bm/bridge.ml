@@ -22,7 +22,7 @@ open Protocol.Printing
 open Host
 open Host_common.Types
 
-let Log log = Host_common.Log.mk_log "Bridge"
+let Common.Types.Log log = Common.Log.mk_log "Bridge" Host_common.Log.is_enabled Host.Hpp.string_of_ppcmds
 
 type observe_id = Id of Host_common.Types.sentence_id | Top
 

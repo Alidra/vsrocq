@@ -38,7 +38,7 @@ type tab = { st : Bridge.state; visible : bool }
 let states : (string, tab) Hashtbl.t = Hashtbl.create 39
 
 
-let Host_common.Types.Log log = Host_common.Log.mk_log "lspManager"
+let Common.Types.Log log = Common.Log.mk_log "lspManager" Host_common.Log.is_enabled Host.Hpp.string_of_ppcmds
 
 let conf_request_id = max_int
 
