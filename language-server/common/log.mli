@@ -17,3 +17,6 @@ val mk_log : string ->
     (Pp.t -> string) ->
     (?force:bool -> (unit -> string) -> unit) Types.log
 val logs : unit -> string list
+type event = string
+type events = event Sel.Event.t list
+val lsp_initialization_done : unit -> unit

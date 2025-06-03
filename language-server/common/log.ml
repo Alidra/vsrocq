@@ -17,6 +17,9 @@ let lsp_initialization_done = ref false
 let initialization_feedback_queue = Queue.create ()
 let logs = ref []
 
+type event = string
+type events = event Sel.Event.t list
+
 let init_log =
   try Some (
     let oc = open_out @@ Filename.temp_file "vsrocq_init_log." ".txt" in
@@ -62,5 +65,12 @@ let mk_log name is_enabled string_of_ppcmds =
         handle_event txt
     end else
       ())
+
+let lsp_initialization_done () =
+  lsp_initialization_done := true;
+  Option.iter close_out_noerr init_log;
+  Queue.iter handle_event initialization_feedback_queue;
+  Queue.clear initialization_feedback_queue
+           
 
 let logs () = List.sort String.compare !logs
