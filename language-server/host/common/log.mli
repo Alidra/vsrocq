@@ -17,7 +17,7 @@ open Host
 
 val is_enabled : string -> string list -> bool
 (* val mk_log : string -> (?force:bool -> (unit -> string) -> unit) log *)
-val logs : unit -> string list
+(* val logs : unit -> string list *)
 
 type event = string
 type events = event Sel.Event.t list

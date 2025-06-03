@@ -12,20 +12,8 @@
 (*                                                                        *)
 (**************************************************************************)
 
-(* open Types *)
 open Host
 
-(* let lsp_initialization_done = ref false *)
-(* let initialization_feedback_queue = Queue.create () *)
-
-(* let init_log =
-  try Some (
-    let oc = open_out @@ Filename.temp_file "vsrocq_init_log." ".txt" in
-    output_string oc "command line:\n";
-    output_string oc (String.concat " " (Sys.argv |> Array.to_list));
-    output_string oc "\nstatic initialization:\n";
-    oc)
-  with _ -> None *)
 
 let rec is_enabled name = function
   | [] -> false
@@ -34,11 +22,11 @@ let rec is_enabled name = function
     List.mem name (String.split_on_char ',' v) || is_enabled name rest
   | _ :: rest -> is_enabled name rest
 
-let logs = ref []
+(* let logs = ref [] *)
 
 let handle_event s = Printf.eprintf "%s\n" s
 
-let logs () = List.sort String.compare !logs
+(* let logs () = List.sort String.compare !logs *)
 
 type event = string
 type events = event Sel.Event.t list
@@ -70,12 +58,6 @@ let main_debug_feeder = install_debug_feedback (fun txt -> Queue.push txt rocq_d
 let debug : event Sel.Event.t =
   Sel.On.queue ~name:"debug" ~priority:PriorityManager.feedback rocq_debug_feedback_queue (fun x -> x)
 let cancel_debug_event = Sel.Event.get_cancellation_handle debug
-
-(* let lsp_initialization_done () =
-  lsp_initialization_done := true;
-  Option.iter close_out_noerr init_log;
-  Queue.iter handle_event initialization_feedback_queue;
-  Queue.clear initialization_feedback_queue *)
 
 let lsp_initialization_done () =
   Common.Log.lsp_initialization_done ();

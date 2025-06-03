@@ -12,7 +12,7 @@
 (*                                                                        *)
 (**************************************************************************)
 
-
+let filename = ref "log_file."
 let lsp_initialization_done = ref false
 let initialization_feedback_queue = Queue.create ()
 let logs = ref []
@@ -22,7 +22,7 @@ type events = event Sel.Event.t list
 
 let init_log =
   try Some (
-    let oc = open_out @@ Filename.temp_file "vsrocq_init_log." ".txt" in
+    let oc = open_out @@ Filename.temp_file !filename ".txt" in
     output_string oc "command line:\n";
     output_string oc (String.concat " " (Sys.argv |> Array.to_list));
     output_string oc "\nstatic initialization:\n";
