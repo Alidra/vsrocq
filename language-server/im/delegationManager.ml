@@ -115,7 +115,7 @@ type job_update_request = Job.update_request
 
 type worker_message =
   | Job_update of Job.update_request
-  | DebugMessage of Host_common.Log.event
+  | DebugMessage of Common.Log.event
 
 let write_value link (x:worker_message) = write_value_gen link x
 
@@ -288,7 +288,7 @@ let handle_event = function
         Queue.push () pool;
       (None,[])
   | WorkerProgress { link; update_request = DebugMessage d } ->
-      Host_common.Log.handle_event d;
+      Common.Log.handle_event d;
       (None, [worker_progress link])
   | WorkerProgress { link; update_request = Job_update u } ->
       log (fun () -> "worker progress");

@@ -55,7 +55,7 @@ type event =
  | LspManagerEvent of lsp_event
  | BridgeEvent of DocumentUri.t * Bridge.event
  | Notification of notification
- | LogEvent of Host_common.Log.event
+ | LogEvent of Common.Log.event
 
 type events = event Sel.Event.t list
 
