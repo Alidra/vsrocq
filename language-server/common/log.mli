@@ -44,3 +44,36 @@ val worker_initialization_done : fwd_event:('a -> unit) ->
       'c -> 'd -> Feedback.level -> 'e option -> 'f -> 'g -> unit) ->
      'h) ->
     ('g -> 'a) -> unit
+
+
+module type Abstract_logger =
+sig
+  type quickFix
+  type loc
+  type pp
+  type state
+  val is_enabled : string -> string list -> bool
+  val lsp_initialization_done : unit -> events
+  val feedback_add_feeder_on_Message : (Feedback.route_id -> state -> Feedback.doc_id -> Feedback.level -> loc option -> quickFix list -> pp -> unit) -> int
+  val worker_initialization_begins : unit -> unit
+  val worker_initialization_done : fwd_event:(event -> unit) -> unit
+  val debug : event Sel.Event.t
+end
+
+module type Logger_Manager =
+sig
+  type loc
+  type pp
+  type state
+  val string_of_ppcmds : pp -> string
+  val priority_feedback : int
+  val is_enabled : string -> string list -> bool
+  type quickFix
+  val feedback_add_feeder_on_Message : (Feedback.route_id -> state -> Feedback.doc_id -> Feedback.level -> loc option -> quickFix list -> pp -> unit) -> int
+end
+
+module Make (Host_logger: Logger_Manager) : Abstract_logger 
+  with type state = Host_logger.state 
+  with type loc = Host_logger.loc 
+  with type quickFix = Host_logger.quickFix 
+  with type pp = Host_logger.pp

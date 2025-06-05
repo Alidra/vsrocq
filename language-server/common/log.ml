@@ -90,8 +90,6 @@ let lsp_initialization_done priority_feedback () =
 
 let clear_debug_feedback_queue = Queue.clear debug_feedback_queue
 let logs () = List.sort String.compare !logs
-
-(* Shared *)
 let worker_initialization_begins priority_feedback feedback_add_feeder_on_Message string_of_ppcmds () =
   Sel.Event.cancel (cancel_debug_event priority_feedback);
   Feedback.del_feeder (main_debug_feeder feedback_add_feeder_on_Message string_of_ppcmds);
@@ -100,9 +98,54 @@ let worker_initialization_begins priority_feedback feedback_add_feeder_on_Messag
     Debug feedback from worker is forwarded to master via a specific handler
     (see [worker_initialization_done]) *)
   clear_debug_feedback_queue
-
-
-(* Shared *)
 let worker_initialization_done ~fwd_event feedback_add_feeder_on_Message string_of_ppcmds =
   let _ = install_debug_feedback fwd_event feedback_add_feeder_on_Message string_of_ppcmds in
   ()
+
+
+module type Logger_Manager =
+sig
+type loc
+type pp
+type state
+val string_of_ppcmds : pp -> string
+val priority_feedback : int
+val is_enabled : string -> string list -> bool
+type quickFix
+val feedback_add_feeder_on_Message : (Feedback.route_id -> state -> Feedback.doc_id -> Feedback.level -> loc option -> quickFix list -> pp -> unit) -> int
+end
+
+module type Abstract_logger =
+sig
+  type quickFix
+  type loc
+  type pp
+  type state
+  val is_enabled : string -> string list -> bool
+  val lsp_initialization_done : unit -> events
+  val feedback_add_feeder_on_Message : (Feedback.route_id -> state -> Feedback.doc_id -> Feedback.level -> loc option -> quickFix list -> pp -> unit) -> int
+  val worker_initialization_begins : unit -> unit
+  val worker_initialization_done : fwd_event:(event -> unit) -> unit
+  val debug : event Sel.Event.t
+
+end
+
+module Make(Host_logger: Logger_Manager) =
+struct
+  type quickFix = Host_logger.quickFix
+  type loc = Host_logger.loc
+  type pp = Host_logger.pp
+  type state = Host_logger.state
+
+
+  let string_of_ppcmds = Host_logger.string_of_ppcmds
+  let priority_feedback = Host_logger.priority_feedback
+
+  let is_enabled = Host_logger.is_enabled
+  let lsp_initialization_done = lsp_initialization_done priority_feedback
+  let feedback_add_feeder_on_Message = Host_logger.feedback_add_feeder_on_Message
+  let worker_initialization_begins () = worker_initialization_begins priority_feedback feedback_add_feeder_on_Message string_of_ppcmds ()
+  let worker_initialization_done ~fwd_event = worker_initialization_done ~fwd_event feedback_add_feeder_on_Message string_of_ppcmds
+  let debug = debug priority_feedback
+
+end

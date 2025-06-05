@@ -13,7 +13,6 @@
 (**************************************************************************)
 
 open Host
-
 val is_enabled : string -> string list -> bool
 
 val lsp_initialization_done : unit -> Common.Log.events
@@ -27,5 +26,5 @@ val debug : Common.Log.event Sel.Event.t
 [%% if rocq = "8.18" || rocq = "8.19" || rocq = "8.20" ]
 val feedback_add_feeder_on_Message : (Feedback.route_id -> State.Id.t -> Feedback.doc_id -> Feedback.level -> HLoc.t option -> 'a list -> Hpp.t -> unit) -> int
 [%%else]
-val feedback_add_feeder_on_Message : (Feedback.route_id -> State.Id.t  -> Feedback.doc_id -> Feedback.level -> HLoc.t option -> Quickfix.t list -> Hpp.t -> unit) -> int
+val feedback_add_feeder_on_Message : (Feedback.route_id -> State.Id.t -> Feedback.doc_id -> Feedback.level -> HLoc.t option -> Quickfix.t list -> Hpp.t -> unit) -> int
 [%%endif]
